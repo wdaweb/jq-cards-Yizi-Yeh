@@ -99,6 +99,26 @@
         height: 200px;
         border-radius: 5px;
       }
+      #btn-start2 {
+        margin: 3% 40%;
+        height: 100px;
+        width: auto;
+        position: absolute;
+        left: -1px;
+        border-radius: 10px;
+        border: white 5px solid;
+        text-align: center;
+        background-color: lightgrey;
+        color: white;
+        font-family: "Cinzel", serif;
+        font-weight: bolder;
+        font-size: 60px;
+        cursor: pointer;
+      }
+      #btn-start2:hover {
+        opacity: 0.6;
+        color: black;
+      }
     </style>
   </head>
   <body>
@@ -113,59 +133,82 @@
         {
           start: 1,
           text:
-            "在戰國動亂終結、天下太平的江戶時代，由於町人文化發達，誕生了許多傳統色其中的「役者色」，可以說這個時代的特徵。",
-        },
-        {
-          start: 4,
-          text: "「役者色」是江戶時代歌舞伎役者（演員）喜歡的顏色總稱。",
-        },
-        {
-          start: 7,
-          text:
-            "當時歌舞伎是人民重要的娛樂，擔任主角的歌舞伎演員都是大明星，同時也是時尚領導者。",
-        },
-        {
-          start: 10,
-          text:
-            "因此，歌舞伎演員身穿的衣物花色，都會透過浮世繪或瓦版傳播出去，並且瞬間引發熱潮。",
-        },
-        {
-          start: 13,
-          text: "另一個特徵是通稱「四十八茶百鼠」的豐富茶系與鼠系色。",
-        },
-        {
-          start: 16,
-          text:
             " 十八世紀，進入江戶時代中期，人稱豪商的富裕階層抬頭，町人的生活也寬裕起來，人人都想穿更好的衣服、用更華麗的顏色。",
         },
         {
-          start: 20,
+          start: 4,
           text:
             "為了制止這項風氣，幕府頒布了「奢侈禁止令」，嚴禁平民過奢華的生活、規定其節儉，好將多餘的金錢用於國家財政上。",
         },
         {
-          start: 23,
+          start: 7,
           text:
             "於是，町人只能穿用麻或棉製成的「茶色」、「鼠色」、「藍色」衣服，華麗的色彩及花紋從平民手中被剝奪了。",
         },
         {
-          start: 26,
+          start: 10,
           text:
             "但不屈不撓才是江戶人的氣魄。過去做為賤民代表色而遭到嫌棄的「茶色」與「鼠色」，以「風流瀟灑的色彩」之姿重生。",
         },
         {
-          start: 29,
+          start: 13,
           text:
             "經由工匠的巧思與手藝，過去從未有過的茶色與鼠色如雨後春筍般誕生。這些新生的色彩，通稱「四十八茶百鼠」。會這麼稱呼主要是因為朗朗上口，相傳實際上誕生的顏色超過一百種。",
         },
         {
-          start: 32,
-          end: 34,
+          start: 16,
           text:
             "此外，江戶時代中期也出現了許多配合語感使用借代字或略語來命名、充滿玩心的傳統色，這可以說是此一時期的趨勢。",
         },
+        {
+          start: 19,
+          end: 22,
+          text: "接著，就讓我們來認識這些富含寓意的傳統顏色吧！",
+        },
+        {
+          start: 23,
+          end: 25,
+        },
       ];
 
+      const colorCards = [
+        {
+          id: 1,
+          text: "江戶鼠",
+        },
+        {
+          id: 2,
+          text: "柳鼠",
+        },
+        {
+          id: 3,
+          text: "桜鼠",
+        },
+        {
+          id: 4,
+          text: "素鼠",
+        },
+        {
+          id: 5,
+          text: "紺鼠",
+        },
+        {
+          id: 6,
+          text: "湊鼠",
+        },
+        {
+          id: 7,
+          text: "源氏鼠",
+        },
+        {
+          id: 8,
+          text: "葡萄鼠",
+        },
+        {
+          id: 9,
+          text: "銀鼠",
+        },
+      ];
       for (let introduction of introductions) {
         $("#init").append(`<p class="introduction">${introduction.text}</p>`);
       }
@@ -178,21 +221,38 @@
         if (introductions[line + 1].start == timing) {
           line++;
           $(".introduction").eq(line).fadeIn();
+        } else if (introductions[line + 1].end == 25) {
+          clearInterval(timer);
+          $("#init").append(
+            `<input type="button" id="btn-start2" value="LET'S GO" />`
+          );
+          $(".btn-start2").fadeIn();
         }
       };
+
       // [init] hide the introductions
       function hideintro() {
         $(".introduction").hide();
+        $("#init h1").hide();
       }
       hideintro();
 
-      //
+      //introductions
       let timer = 0;
       $("#btn-start").click(function (e) {
         $("#btn-start").fadeOut();
-        timer = setInterval(init, 100);
+        $("#init h1").show();
+        timer = setInterval(init, 300);
       });
 
+      //startgame
+      $("#init").on("click", "#btn-start2", function () {
+        $("#init").fadeOut();
+        $("#btn-start2").fadeOut();
+        game();
+      });
+
+      // game
       function game() {
         $(function () {
           for (let i = 0; i < 18; i++) {
@@ -225,6 +285,7 @@
                 $(".card-open").removeClass("card-open");
               }, 800);
 
+              // same card
               if (
                 $(".card-open").eq(0).attr("data-card") ===
                 $(".card-open").eq(1).attr("data-card")
