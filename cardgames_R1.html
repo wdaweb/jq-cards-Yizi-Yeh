@@ -123,8 +123,8 @@
       .cardGamen {
         margin: 100px 100px;
         top: 15%;
-        height: auto;
-        width: auto;
+        height: 50px;
+        width: 50px;
         position: absolute;
         border-radius: 10px;
         border: black solid;
@@ -134,7 +134,7 @@
         z-index: 9999;
         padding: 100px 100px;
         opacity: 0.6;
-        left: -1;
+        left: -10;
       }
 
       .colorCard {
@@ -144,6 +144,9 @@
         color: black;
         font-family: "Cinzel", serif;
         font-weight: bolder;
+      }
+      .opa {
+        opacity: 0;
       }
     </style>
   </head>
@@ -281,7 +284,7 @@
       $("#btn-start").click(function (e) {
         $("#btn-start").fadeOut();
         $("#init h1").show();
-        timer = setInterval(init, 10);
+        timer = setInterval(init, 300);
       });
 
       //startgame
@@ -343,7 +346,18 @@
                   }
                   $(".cardGamen").fadeIn(1000);
                   $(".colorCard").fadeIn(1000);
-                  $(".cardGamen").animate({}, 5000), kieru();
+                  $(".cardGamen").animate(
+                    {
+                      width: "+=900px",
+                      height: "+=200px",
+                    },
+                    2000,
+                    function () {
+                      $(".cardGamen").delay(5000).remove();
+                      $(".colorCard").delay(5000).remove();
+                      $(".cardGamen").delay(5000).stop(true);
+                    }
+                  );
                 }
               }
             }
@@ -355,9 +369,6 @@
             }
           });
         });
-      }
-      function kieru() {
-        $(".cardGamen").fadeOut(3000);
       }
     </script>
   </body>
